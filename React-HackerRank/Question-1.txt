@@ -1,0 +1,82 @@
+Item List Manager — Problem Statement
+You are asked to create a simple React application called “Item List Manager”.
+
+The application should:
+
+Display a list of items using an unordered list (<ul>).
+Provide an input field where the user can enter text.
+Provide a button to add the entered item to the list.
+Requirements
+When the application loads, the list should be empty.
+The input field should allow the user to enter text.
+When the “Add Item” button is clicked:
+The text entered in the input field should be added to the list.
+The input field should be cleared.
+If the input field is empty when the button is clicked, nothing should be added to the list.
+Example
+Initial state:
+
+List: empty
+Input: empty
+User enters: First Item
+Clicks: Add Item
+
+The list becomes:
+
+First Item
+
+Then the user enters Second Item and clicks Add Item.
+
+The list becomes:
+
+First Item
+Second Item
+
+The challenge is a Medium React problem worth 60 points.
+
+
+
+import { useState } from "react";
+import "h8k-components";
+
+import "./App.css";
+
+function App() {
+  const [items, setItems] = useState([]);
+  const [input, setInput] = useState("");
+
+  const handleAddItem = () => {
+    // TODO: Add logic to add input to items list
+    if(input.trim() === '') return
+    setItems([...items,input])
+    setInput('');
+  };
+
+  return (
+    <>
+      <h8k-navbar header="Item List Manager"></h8k-navbar>
+      <div className="App">
+        <h3>Item List</h3>
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Enter item"
+          data-testid="input-field"
+        />
+        <button onClick={handleAddItem} data-testid="add-button">
+          Add Item
+        </button>
+        <ul data-testid="item-list">
+          {items.map((item, index) => (
+            <li key={index} data-testid="list-item">
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
+}
+
+export default App;
