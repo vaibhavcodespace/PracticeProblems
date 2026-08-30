@@ -1,0 +1,60 @@
+Find Smallest Number
+According to the NamasteDev page, the problem is:
+
+Given an array arr of numbers, return the smallest number in the array. If the array is empty, return null. 
+N
+NamasteDev
+
+Examples
+arr = [3, 1, 2] → 1
+arr = [-5, 2, -3, 4] → -5
+arr = [0, 2, 3] → 0
+arr = [] → null
+Constraints
+The input must be an array of finite numbers.
+If the input is not an array, return false.
+If the array contains a non-number value, return false.
+If the array contains NaN, Infinity, or -Infinity, return false.
+If the array is empty, return null. 
+N
+NamasteDev
+Function Signature
+function findSmallest(arr) {
+  // Your code here
+}
+
+Test Cases
+[] → null
+[5] → 5
+[3, 1, 2] → 1
+[-1, -2, -3] → -3
+[1, 2, 3] → 1
+[-1.5, -0.1, 0, 2.2] → -1.5
+null → false
+[1, "a"] → false
+[NaN] → false
+[Infinity] → false
+
+
+
+
+function findSmallest(arr) {
+  //not an array
+  if (!Array.isArray(arr)) return false
+  //has finite numbers
+  if (!arr.every(isFinite)) return false
+  //has non number values
+  if (arr.some(isNaN)) return false
+  //empty array
+  if (arr.length === 0) return null
+  let smallest = arr[0];
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] < smallest) {
+      smallest = arr[i]
+    }
+  }
+  return smallest;
+
+}
+
+module.exports = { findSmallest };
