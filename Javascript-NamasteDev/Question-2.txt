@@ -1,0 +1,29 @@
+Your task is to return the number of elements that are strictly less than 0. 
+
+Examples
+[-1, 0, 1] → 1
+[-2, -5, -7] → 3
+[0, 2, 3] → 0
+[] → 0
+Important constraints
+If the input is not an array, return false.
+If the array contains any non-number value, return false.
+If the array contains non-finite numbers such as NaN, Infinity, or -Infinity, return false.
+An empty array is valid and should return 0.
+
+
+
+function countNegatives(arr) {
+  // implement your solution here
+  if (!Array.isArray(arr)) return false
+  if (arr.some(isNaN)) return false
+  if (!arr.every(isFinite)) return false
+  if (arr.length === 0) return 0
+  let count = 0
+  for (let num of arr) {
+    if (num < 0) count++;
+  }
+  return count;
+}
+
+module.exports = { countNegatives };

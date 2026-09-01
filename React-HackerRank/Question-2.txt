@@ -1,0 +1,116 @@
+Blog Post — Problem Statement
+Create a Blog Post application using React.
+
+The application should allow a user to:
+
+Enter a title for a blog post.
+Enter a description for the blog post.
+Click the Create Post button to add the blog post.
+Display all created blog posts.
+Delete an individual blog post using its Delete button.
+Requirements
+The title input should have:
+
+Placeholder: Enter Title
+data-testid="title-input"
+The description input should be a textarea with:
+
+Placeholder: Enter Description
+data-testid="description-input"
+The create button should:
+
+Display Create Post
+Have data-testid="create-button"
+A post should be created only when both title and description contain values.
+
+If either title or description is empty, clicking Create Post should not create a post.
+
+After creating a post:
+
+The entered title should be displayed.
+The entered description should be displayed.
+The input fields should be cleared.
+Each blog post should have a Delete button.
+
+Clicking Delete should remove only that particular post.
+
+Multiple blog posts should be supported.
+
+
+import React, { useState } from "react";
+import Input from "./Input";
+import PostDisplay from "./PostDisplay";
+
+function Home() {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('')
+  const [posts, setPosts] = useState([])
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'title') setTitle(value)
+    else if (name === 'description') setDescription(value);
+  }
+
+  const handleClick = () => {
+    if (title.trim() === '' || description.trim() === '') return
+    const isExists = posts.some((post) => post.title === title || post.description === description)
+    if (isExists) return
+    setPosts([...posts, { title, description }])
+    setTitle('')
+    setDescription('')
+  }
+  const handleDelete = (title) => {
+    setPosts(posts.filter((post) => post.title != title))
+  }
+  return (
+    <div className="text-center ma-20">
+      <div className="mb-20">
+        <Input title={title} description={description} handleOnChange={handleOnChange} />
+        <button data-testid="create-button" className="mt-10" onClick={handleClick}>
+          Create Post
+        </button>
+      </div>
+      <div className="posts-section">
+        <PostDisplay posts={posts} handleDelete={handleDelete} />
+      </div>
+    </div>
+  );
+}
+
+export default Home;
+
+
+
+import React from "react";
+
+function PostDisplay({ posts, handleDelete }) {
+  return (
+    <div data-testid="posts-container" className="flex wrap gap-10">
+      {posts.map((post) => (
+        <div className="post-box">
+          <h3>{post.title}</h3>
+          <p>{post.description}</p>
+          <button onClick={() => handleDelete(post.title)}>Delete</button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default PostDisplay;
+
+
+
+import React from "react";
+
+function Input({ title, description, handleOnChange }) {
+  return (
+    <div className="layout-column justify-content-center align-items-center">
+      <input className="w-100" type="text" placeholder="Enter Title" value={title} data-testid="title-input" name="title" onChange={handleOnChange} />
+      <textarea className="mt-10 w-100" placeholder="Enter Description" value={description} data-testid="description-input" name="description" onChange={handleOnChange} />
+    </div>
+  );
+}
+
+export default Input;
