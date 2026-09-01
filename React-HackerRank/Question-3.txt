@@ -1,0 +1,101 @@
+React: Slideshow App — Problem Statement
+Create a basic slideshow application using React.
+
+You are given a React project in which the main slideshow component is:
+
+src/components/Slides.js
+
+Your task is to complete the implementation of Slides.js so that the application satisfies the required behavior and passes all unit tests.
+
+Requirements
+The slideshow should:
+
+Display the current slide.
+Have a Previous button.
+Have a Next button.
+Initially display the first slide.
+Clicking Next should move to the next slide.
+Clicking Previous should move to the previous slide.
+The displayed slide should update correctly when the buttons are clicked.
+The Previous/Next controls should work correctly at the boundaries of the slideshow.
+
+
+
+
+import React from "react";
+import "h8k-components";
+
+import Slides from './components/Slides';
+import { SLIDES_DATA } from "./constants";
+
+import "./App.css";
+
+function App() {
+  return (
+    <>
+      <h8k-navbar header="Slideshow App"></h8k-navbar>
+      <div className="App">
+        <Slides slides={SLIDES_DATA} />
+      </div>
+    </>
+  );
+}
+
+export default App;
+
+
+
+
+import React, { useState } from "react";
+
+function Slides({ slides }) {
+  const [currentIndex,setCurrentIndex] = useState(0);
+  return (
+    <div>
+      <div id="navigation" className="text-center">
+        <button data-testid="button-restart" className="small outlined" onClick={() => setCurrentIndex(0)} disabled={currentIndex === 0}>
+          Restart
+        </button>
+        <button data-testid="button-prev" className="small" disabled={currentIndex === 0} onClick={() =>setCurrentIndex(currentIndex - 1)}>
+          Prev
+        </button>
+        <button data-testid="button-next" className="small" disabled={currentIndex === slides.length - 1} onClick={() =>setCurrentIndex(currentIndex + 1)}>
+          Next
+        </button>
+      </div>
+        <div id="slide" className="card text-center">
+          <h1 data-testid="title">{slides[currentIndex].title}</h1>
+          <p data-testid="text">{slides[currentIndex].text}</p>
+        </div>
+    </div>
+  );
+}
+
+export default Slides;
+
+
+
+
+
+export const SLIDES_DATA = [
+  {
+    title: "Today's workout plan",
+    text: "We're gonna do 3 fundamental exercises.",
+  },
+  {
+    title: "First, 10 push-ups",
+    text: "Do 10 reps. Remember about full range of motion. Don't rush.",
+  },
+  {
+    title: "Next, 20 squats",
+    text: "Squats are important. Remember to keep your back straight.",
+  },
+  {
+    title: "Finally, 15 sit-ups",
+    text: "Slightly bend your knees. Remember about full range of motion.",
+  },
+  {
+    title: "Great job!",
+    text: "You made it, have a nice day and see you next time!",
+  },
+];

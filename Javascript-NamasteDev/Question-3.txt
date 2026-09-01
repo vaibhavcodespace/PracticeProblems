@@ -1,0 +1,44 @@
+Remove Duplicates from Array — Problem Statement
+
+you are given an array and need to return a new array with all duplicate elements removed. The order of the first occurrence of each element must be preserved. 
+
+Input
+An array containing primitive values such as:
+
+number
+string
+boolean
+null
+undefined
+Output
+Return a new array containing only unique elements, in the same order in which they first appeared.
+
+
+
+function removeDuplicates(arr) {
+  // your code here
+  // if (arr.length === 0) return []
+  // let result = new Set();
+
+  // for (let num of arr) {
+  //   result.add(num)
+  // }
+  // return Array.from(result);
+
+
+
+  // return [... new Set(arr)]
+
+
+//Worst Case
+  let result = [];
+
+  for (let item of arr) {
+    if (!result.includes(item)) {
+      result.push(item)
+    }
+  }
+  return result
+}
+removeDuplicates([1, 2, 2, 3, 4, 4])
+module.exports = removeDuplicates;
