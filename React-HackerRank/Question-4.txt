@@ -1,0 +1,128 @@
+Word Omitter — Problem Statement
+
+You are asked to build a React component called WordOmitter that filters specific words from text entered by the user.
+
+The component should support these behaviors:
+
+Omitted words
+The component receives an array of words that should be omitted.
+These words are supplied through an omitWords prop.
+
+Example:
+
+["a", "the", "and"]
+Text input
+Provide an input/textarea where the user can type a sentence.
+The output should update as the user types.
+Omit words in real time
+When omit mode is enabled, the specified words should be removed from the output.
+
+For example:
+
+Input:
+This is a test sentence.
+
+Output:
+This is test sentence.
+Toggle between modes
+Provide a button that switches between:
+Omit Words
+Show All Words
+When "Show All Words" is active, the original sentence should be displayed without filtering.
+Clear
+Provide a Clear button.
+Clicking it should clear both:
+the input
+the output
+Empty input
+If the input is empty, the output must also be empty.
+Expected initial state
+Input:
+[                         ]
+
+[Show All Words] [Clear]
+
+Output:
+
+The initial mode is omit mode, so the button displays "Show All Words".
+
+Example interaction
+
+Suppose the omitted words are:
+
+["a", "the", "and", "or", "but"]
+
+User types:
+
+This is a test and this is the example.
+
+Output should be:
+
+This is test this is example.
+
+Then the user clicks Show All Words:
+
+This is a test and this is the example.
+
+Then clicks Clear:
+
+Input:  ""
+Output: ""
+
+
+
+
+import React, { useState } from "react";
+
+const OMITTED_WORDS = ["a", "the", "and", "or", "but"];
+
+function WordOmitter() {
+  const [inputText, setInputText] = useState("");
+  const [omitWords, setOmitWords] = useState(true);
+
+  const handleInputChange = (e) => {
+    setInputText(e.target.value);
+  };
+
+  const toggleOmitWords = () => {
+    setOmitWords(!omitWords);
+  };
+
+  const clearFields = () => {
+    // TODO: Add your changes here
+    setInputText('');
+    getProcessedText()
+
+  };
+
+  const getProcessedText = () => {
+    // TODO: Add your changes here
+    if (omitWords) return inputText.split(" ").filter((str) => !OMITTED_WORDS.includes(str)).join(' ');
+    return inputText;
+  };
+
+  return (
+    <div className="omitter-wrapper">
+      <textarea
+        placeholder="Type here..."
+        value={inputText}
+        onChange={handleInputChange}
+        data-testid="input-area"
+      />
+      <div>
+        <button onClick={toggleOmitWords} data-testid="action-btn">
+          {omitWords ? "Show All Words" : "Omit Words"}
+        </button>
+        <button onClick={clearFields} data-testid="clear-btn">
+          Clear
+        </button>
+      </div>
+      <div>
+        <h2>Output:</h2>
+        <p data-testid="output-text">{getProcessedText()}</p>
+      </div>
+    </div>
+  );
+}
+
+export { WordOmitter };
