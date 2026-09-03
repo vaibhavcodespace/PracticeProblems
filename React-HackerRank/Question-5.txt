@@ -1,0 +1,152 @@
+Contact Form — Problem Statement
+
+Create a simple React application called Contact Form that collects information from a user and displays the submitted information below the form.
+
+The goal is to practice React form handling, validation, state management, and conditional rendering.
+
+Requirements
+1. Form fields
+
+The form must contain three fields:
+
+Name — text input
+Email — text input
+Message — textarea
+2. Submit button
+
+Provide a Submit button that submits the form.
+
+3. Validation
+
+When the user clicks Submit, validate that all three fields contain a value.
+
+If any field is empty:
+
+All fields are required.
+
+should be displayed.
+
+The form should not be submitted in this case.
+
+4. Successful submission
+
+If all fields are filled:
+
+Display the submitted Name
+Display the submitted Email
+Display the submitted Message
+Display this information below the form
+Clear all input fields after successful submission.
+Example
+
+User enters:
+
+Name: John Doe
+Email: john@example.com
+Message: Hello there!
+
+After clicking Submit, the information should appear below the form:
+
+John Doe
+john@example.com
+Hello there!
+
+And the input fields should become empty.
+
+Invalid submission
+
+If the user enters:
+
+Name: John Doe
+Email:
+Message: Hello there!
+
+and clicks Submit, nothing should be displayed as submitted data.
+
+Instead:
+
+All fields are required.
+
+should appear.
+
+
+
+
+
+
+import { useState } from "react";
+import "./App.css";
+
+import "h8k-components";
+
+function App() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [submittedData, setSubmittedData] = useState(null);
+  const [error, setError] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (name.trim() === '' || email.trim() === '' || message.trim() === '') setError('All fields are required.')
+    setSubmittedData({ name, email, message })
+    setName('')
+    setEmail('')
+    setMessage('')
+  };
+
+  return (
+    <>
+      <h8k-navbar header="Contact Form"></h8k-navbar>
+      <div className="App">
+        <h1>Contact Form</h1>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Name"
+            data-testid="name-input"
+          />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            data-testid="email-input"
+          />
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Message"
+            data-testid="message-input"
+          />
+          <button type="submit" data-testid="submit-button">
+            Submit
+          </button>
+        </form>
+        {error && (
+          <p data-testid="error-message" className="error">
+            {error}
+          </p>
+        )}
+        {submittedData && (
+          <div data-testid="submitted-data" className="submitted-data">
+            <h2>Submitted Information</h2>
+            <p>
+              <strong>Name:</strong> {submittedData.name}
+            </p>
+            <p>
+              <strong>Email:</strong> {submittedData.email}
+            </p>
+            <p>
+              <strong>Message:</strong> {submittedData.message}
+            </p>
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
+export default App;

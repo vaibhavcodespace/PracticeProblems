@@ -1,0 +1,18 @@
+Count Vowels — Problem Statement
+
+You need to write a JavaScript function called countVowels that takes a string as input and returns the number of vowels present in that string.
+
+
+function countVowels(str) {
+    // Your implementation
+    let count = 0
+    for (let s of str) {
+        if (['a', 'e', 'i', 'o', 'u'].includes(s.toLowerCase())) count++
+    }
+    return count;
+}
+
+//For the purpose of user debugging.
+countVowels("JavaScript");
+
+module.exports = countVowels
