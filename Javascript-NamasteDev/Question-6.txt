@@ -1,0 +1,17 @@
+sum() — Problem Statement
+
+You need to design a JavaScript function called sum that accepts any number of arguments and returns their total. It should support both a fixed and variable number of arguments. Only numerical arguments will be provided.
+
+function sum(...args) {
+    // Your implementation
+    let result = 0;
+    for (let num of args) {
+        result += num;
+    }
+    return result;
+}
+
+//For the purpose of user debugging.
+sum(100, 200, 300, 400);
+
+module.exports = sum

@@ -1,0 +1,92 @@
+create a React application called Code Review Feedback that tracks feedback for different aspects of code quality.
+
+Requirements
+
+The component should display five code-review aspects:
+
+Readability
+Performance
+Security
+Documentation
+Testing
+
+For each aspect:
+
+Display an Upvote button.
+Display a Downvote button.
+Initially, both counts should be 0.
+Clicking Upvote increases the upvote count for that particular aspect by 1.
+Clicking Downvote increases the downvote count for that particular aspect by 1.
+The updated count should immediately appear in the UI.
+The voting count should have a subtle animation when it changes.
+
+
+
+
+import React, { useState } from "react";
+
+const FeedbackSystem = () => {
+  const [data, setData] = useState([
+    {
+      aspect: 'Readability',
+      upvotes: 0,
+      downvotes: 0
+    },
+    {
+      aspect: 'Performance',
+      upvotes: 0,
+      downvotes: 0
+    },
+    {
+      aspect: 'Security',
+      upvotes: 0,
+      downvotes: 0
+    },
+    {
+      aspect: 'Documentation',
+      upvotes: 0,
+      downvotes: 0
+    },
+    {
+      aspect: 'Testing',
+      upvotes: 0,
+      downvotes: 0
+    }
+  ]
+
+  )
+  return (
+    <div className="my-0 mx-auto text-center w-mx-1200">
+      <div className="flex wrap justify-content-center mt-30 gap-30">
+        {data.map((obj, index) => (
+          <div className="pa-10 w-300 card" key={obj.aspect}>
+            <h2>{obj.aspect}</h2>
+            <div className="flex my-30 mx-0 justify-content-around">
+              <button className="py-10 px-15" data-testid={`upvote-btn-${index}`} onClick={() =>
+                setData((prevData) =>
+                  prevData.map((item) =>
+                    item.aspect === obj.aspect ? { ...item, upvotes: item.upvotes + 1 } : item
+                  )
+                )
+              }>
+                👍 Upvote
+              </button>
+              <button className="py-10 px-15 danger" data-testid={`downvote-btn-${index}`} onClick={() => setData(prevData => prevData.map(item => item.aspect === obj.aspect ? { ...item, downvotes: item.downvotes + 1 } : item))}>
+                👎 Downvote
+              </button>
+            </div>
+            <p className="my-10 mx-0" data-testid={`upvote-count-${index}`}>
+              Upvotes: <strong>{obj.upvotes}</strong>
+            </p>
+            <p className="my-10 mx-0" data-testid={`downvote-count-${index}`}>
+              Downvotes: <strong>{obj.downvotes}</strong>
+            </p>
+          </div>
+        ))}
+
+      </div>
+    </div>
+  );
+};
+
+export default FeedbackSystem;
