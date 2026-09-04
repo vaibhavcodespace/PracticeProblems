@@ -1,0 +1,68 @@
+Finding the Percentage
+
+You are given a record of N students. Each student's record contains their name and their marks.
+
+The provided code stub stores these records in a dictionary in the following format:
+
+name: [marks]
+
+You are then given the name of one particular student, called query_name.
+
+Your task is to calculate and print the average of that student's marks, rounded/formatted to 2 decimal places.
+
+Input Format
+The first line contains an integer N, the number of student records.
+The next N lines contain:
+Student name
+Their marks
+Each value is separated by a space.
+The final line contains query_name, the name of the student whose average you need to calculate.
+Example Input
+3
+Krishna 67 68 69
+Arjun 70 98 63
+Malika 52 56 60
+Malika
+Expected Output
+56.00
+
+Because Malika's marks are:
+
+52, 56, 60
+
+and her average is:
+
+(52 + 56 + 60) / 3 = 56
+
+So the output must be:
+
+56.00
+Another Example
+
+Input:
+
+2
+Harsh 25 26.5 28
+Anurag 26 28 30
+Harsh
+
+Output:
+
+26.50
+
+
+
+
+
+if __name__ == '__main__':
+    n = int(input())
+    student_marks = {}
+    for _ in range(n):
+        name, *line = input().split()
+        scores = list(map(float, line))
+        student_marks[name] = scores
+    query_name = input()
+    sum = 0
+    for key in student_marks[query_name]:
+        sum += key
+    print("%.2f" % (sum / len(student_marks[query_name])))
