@@ -1,0 +1,18 @@
+Count Even Numbers — Problem Statement
+
+Given an array arr of numbers, return the count of elements that are even integers, meaning they are divisible by 2.
+
+function countEvens(arr) {
+  // your solution here
+  if (!Array.isArray(arr)) return false;
+  if (!arr.every(isFinite)) return false
+  if (arr.some(isNaN)) return false
+  // if (arr.length === 0) return 0;
+  let count = 0;
+  for (let num of arr) {
+    if (num % 2 === 0) count++
+  }
+  return count;
+}
+
+module.exports = { countEvens };

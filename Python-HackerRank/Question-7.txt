@@ -1,0 +1,29 @@
+Find the Runner-Up Score! — HackerRank
+
+You are given the scores of participants in a University Sports Day.
+
+Your task is to find the runner-up score, which is the second-highest unique score in the list.
+
+Input Format
+
+The input contains:
+
+The first line: an integer n, representing the number of scores.
+The second line: n space-separated integers representing the participants' scores.
+Output Format
+
+Print the runner-up score (the second-highest unique score).
+
+
+if __name__ == '__main__':
+    n = int(input())
+    arr = list(map(int, input().split()))
+    maximum = float('-inf')
+    second_maximum = float('-inf')
+    for score in arr:
+        if score > maximum:
+            second_maximum = maximum
+            maximum = score
+        elif score > second_maximum and score != maximum:
+            second_maximum = score
+    print(second_maximum)
