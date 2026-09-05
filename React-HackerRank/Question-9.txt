@@ -1,0 +1,171 @@
+Employee Validation — Problem Statement
+
+You need to create a React application with an EmployeeValidationForm component that allows an employee to validate and update their existing information.
+
+The form contains 4 fields:
+
+Name
+Email
+Employee ID
+Joining Date
+
+Each field must be validated, and the Submit button should remain disabled until all fields are valid. If a field is invalid, an error message should appear below it.
+
+Validation Rules
+Field	Requirement
+Name	At least 4 characters; only letters (A-Z, a-z) and spaces
+Email	Valid email format
+Employee ID	Exactly 6 numeric digits
+Joining Date	Cannot be a future date
+Exact Error Messages
+
+Name
+
+Name must be at least 4 characters long and only contain letters and spaces.
+
+Email
+
+Email must be a valid email address.
+
+Employee ID
+
+Employee ID must be exactly 6 digits.
+
+Joining Date
+
+Joining Date cannot be in the future.
+
+Submit Behavior
+
+Initially:
+
+All inputs are empty.
+Submit button is disabled.
+According to the current HackerRank statement, error messages are displayed for the empty fields.
+
+After entering valid values:
+
+Corresponding errors disappear.
+Once all four fields are valid, Submit becomes enabled.
+
+After clicking Submit:
+
+All fields are cleared.
+Submit becomes disabled again.
+Form returns to its initial state.
+
+
+
+
+import React, { useState } from "react";
+
+function EmployeeValidationForm() {
+  //Here I wanted to keep all the value and if an error as a boolean to render easier and more accessible
+  const initState = {
+    name: { value: "", isValid: false },
+    email: { value: "", isValid: false },
+    employeeId: { value: "", isValid: false },
+    joiningDate: { value: "", isValid: false }
+  }
+  const [formFields, setFormFields] = useState(initState);
+
+  //All the errors 
+  const isShort = (input) => input.trim().length < 4 ;
+  const isAlpha = (input) => (/^[A-Za-z\s]+$/).test(input);
+  const isEmail = (input) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input) ? true : false;
+  const isSixDigits = (input) => /^[0-9]{6}$/.test(input) ? true : false;
+  const isFutureDate = (input) => new Date(input) <= new Date("2025-01-01") ? true : false;
+
+  const validateField = (name, value) => {
+    switch (name) {
+      case "name":
+        return !isShort(value) && isAlpha(value);
+      case "email":
+        return isEmail(value);
+      case "employeeId":
+        return isSixDigits(value)
+      case "joiningDate":
+        return isFutureDate(value)
+      default:
+        return false
+    }
+  };
+
+  const handleNameInput = (e) => {
+    const { name, value } = e.target;
+    const isValid = validateField(name, value);
+    setFormFields((prev) => ({ ...prev, [name]: { value, isValid } }));
+  }
+
+  //Check that fields are not empty and that isValid is true
+  const isFormValid = Object.values(formFields).every((field) => field.value.trim() !== "" && field.isValid);
+
+  const handleSubmit = () => {
+    setFormFields(initState)
+  }
+
+  return (
+    <div className="layout-column align-items-center mt-20 ">
+      <div className="layout-column align-items-start mb-10 w-50" data-testid="input-name">
+        <input
+          className="w-100"
+          type="text"
+          name="name"
+          placeholder="Name"
+          value={formFields.name.value}
+          onChange={handleNameInput}
+        />
+        {!formFields.name.isValid &&
+          <p className="error mt-2">
+            Name must be at least 4 characters long and only contain letters and spaces
+          </p>
+        }
+      </div>
+      <div className="layout-column align-items-start mb-10 w-50" data-testid="input-email">
+        <input
+          className="w-100"
+          type="email"
+          name="email"
+          value={formFields.email.value}
+          placeholder="Email"
+          onChange={handleNameInput}
+        />
+        {!formFields.email.isValid &&
+          <p className="error mt-2">Email must be a valid email address</p>
+        }
+      </div>
+      <div className="layout-column align-items-start mb-10 w-50" data-testid="input-employee-id">
+        <input
+          className="w-100"
+          type="text"
+          name="employeeId"
+          value={formFields.employeeId.value}
+          placeholder="Employee ID"
+          onChange={handleNameInput}
+        />
+        {!formFields.employeeId.isValid &&
+          <p className="error mt-2">Employee ID must be exactly 6 digits</p>
+        }
+
+      </div>
+      <div className="layout-column align-items-start mb-10 w-50" data-testid="input-joining-date">
+        <input
+          className="w-100"
+          type="date"
+          name="joiningDate"
+          value={formFields.joiningDate.value}
+          placeholder="Joining Date"
+          onChange={handleNameInput}
+        />
+        {!formFields.joiningDate.isValid &&
+          <p className="error mt-2">Joining Date cannot be in the future</p>
+        }
+      </div>
+      <button data-testid="submit-btn" type="submit" disabled={!isFormValid} onClick={handleSubmit}>
+        Submit
+      </button>
+    </div>
+  );
+}
+
+export default EmployeeValidationForm;
